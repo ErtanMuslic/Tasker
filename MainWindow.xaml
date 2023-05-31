@@ -7,6 +7,40 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="209"/>
+            <RowDefinition Height="112"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Column="1" Background="Beige" Grid.ColumnSpan="2" Margin="266,0,0,0"/>
+        <Label x:Name="label"   Margin="19,0,102,0" Grid.Column="2" VerticalAlignment="Center" Height="26" />
+
+        <Button Content="Dugme" Click="Button_Click" x:Name="Button"  Width="69" Grid.Column="2" RenderTransformOrigin="1.333,1.219" Margin="0,13,20,19" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#FF0F0707" Foreground="#FFF7F7F7" FontStyle="Italic" Padding="1,1,1,1" BorderThickness="0,0,0,0">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBox Margin="13,80,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"  Height="24" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="125"/>
+        <TextBox Margin="13,132,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"  Height="25" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="125"/>
+        <TextBox Margin="13,27,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"  Height="25" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="125"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="13,1,0,0" VerticalAlignment="Top" Grid.Row="1" FontWeight="Bold" FontStyle="Italic"/>
+        <Label Content="Goal:" HorizontalAlignment="Left" Margin="13,57,0,0" Grid.Row="1" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic"/>
+        <Label Content="DeadLine:" HorizontalAlignment="Left" Margin="13,109,0,0" Grid.Row="1" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic"/>
+        <Button Content="Create Project" Click="Create_Project" Margin="15,170,150,10" Grid.Row="1" BorderBrush="Black" Background="#FF030202" Foreground="White">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <ListBox Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=3}" Margin="0,0,133,87"/>
+
     </Grid>
 </Window>

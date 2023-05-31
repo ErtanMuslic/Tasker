@@ -24,5 +24,15 @@ namespace Tasker
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            label.Content = "You Clicked The Button";
+        }
+
+        private void Create_Project(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

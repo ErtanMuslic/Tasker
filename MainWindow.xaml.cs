@@ -20,6 +20,8 @@ namespace Tasker
     /// </summary>
     public partial class MainWindow : Window
     {
+
+         List<Project> Projects = new List<Project>();
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +34,19 @@ namespace Tasker
 
         private void Create_Project(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                var date = DateTime.Parse((deadline.Text).ToString());
+                Project project = new Project(name.Text, goal.Text, date);
+                MessageBox.Show($"Successfuly created Project: {project.name}");
+            }
+            catch
+            {
+                MessageBox.Show("All Fields Must Be Filled!");
+            }
+           
         }
-    }
+
+     
+}
 }

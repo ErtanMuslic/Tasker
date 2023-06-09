@@ -19,9 +19,40 @@ namespace Tasker
     /// </summary>
     public partial class CreateProjectWindow : Window
     {
+
+        public DateTime date { get; set; } //Deadline date 
+        
         public CreateProjectWindow()
         {
             InitializeComponent();
+        }
+
+        public void CreateProject(object sender, RoutedEventArgs e)
+        {
+           
+
+            if (name.Text == "" || goal.Text == "" || deadline.Text == "")
+            {
+                MessageBox.Show("All Fields must be filled"); //If all fields are empty show this message
+            }
+            else
+            {
+                try
+                {
+                    date = DateTime.Parse((deadline.Text).ToString()); //Parse date into String
+
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)"); //if date input is invalid or wrong format
+
+                }
+                if (date != DateTime.MinValue) //if dateTime is empty or uninitialised
+                {
+                    Close(); //close Window
+                }
+            }
+
         }
     }
 }

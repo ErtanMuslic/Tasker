@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tasker"
         mc:Ignorable="d"
-        Title="CreateProjectWindow" Height="450" Width="800">
+        Title="CreateProjectWindow" Height="400" Width="400">
     <Grid>
-        
+        <TextBox x:Name="goal" Margin="104,187,0,0" TextWrapping="Wrap" Text=""  VerticalAlignment="Top"  Height="33" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <TextBox x:Name="deadline" Margin="104,259,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <TextBox x:Name="name" Margin="104,113,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="104,77,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="36" Width="74"/>
+        <Label Content="Goal:" HorizontalAlignment="Left" Margin="104,155,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="36" Width="64"/>
+        <Label Content="DeadLine:" HorizontalAlignment="Left" Margin="104,227,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="36" Width="106"/>
+        <Label Content="Create New Project" HorizontalAlignment="Left" Margin="96,15,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
+        <Button Content="Create Project" Click="CreateProject"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="0,326,0,0" Padding="0,0,0,0" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="167" VerticalAlignment="Top" HorizontalAlignment="Center" FontStyle="Italic" >
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+
     </Grid>
 </Window>

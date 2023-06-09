@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Tasker
 {
-    internal class Project
+    public class Project
     {
-        public string name {  get; set; }
-        public string goal { get; set; }
-        public DateTime deadline { get; set; }
-        public Project(string n,string g,DateTime d)
-        {
-            this.name = n;
-            this.goal = g; 
-            this.deadline = d;
-        }
+        public string Name {  get; set; }
+        public string Goal { get; set; }
+        public DateTime Deadline { get; set; }
+        //public Project(string n,string g,DateTime d)
+        //{
+        //    this.Name = n;
+        //    this.Goal = g; 
+        //    this.Deadline = d;
+        //}
     }
 }

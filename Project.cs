@@ -11,11 +11,6 @@ namespace Tasker
         public string Name {  get; set; }
         public string Goal { get; set; }
         public DateTime Deadline { get; set; }
-        //public Project(string n,string g,DateTime d)
-        //{
-        //    this.Name = n;
-        //    this.Goal = g; 
-        //    this.Deadline = d;
-        //}
+        
     }
 }

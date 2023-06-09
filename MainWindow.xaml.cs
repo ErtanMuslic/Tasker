@@ -40,6 +40,7 @@ namespace Tasker
         private void Create_Project(object sender, RoutedEventArgs e)
         {
             CreateProjectWindow newProject = new CreateProjectWindow();
+            newProject.Closed += newProject_Closed; //add event handling method for when second window is closed manualy
             newProject.ShowDialog();  //Main Window will stay open until second window is closed
 
             string name = newProject.name.Text; //get name input from second window
@@ -48,11 +49,20 @@ namespace Tasker
 
             newProject.Close(); //close second window
 
-           
-             Project project = new Project { Name = name, Goal = goal, Deadline = deadline };
-             Projects.Add(project);
-             MessageBox.Show($"Successfuly created Project: {project.Name}");
+            if (name != "" && goal != "" && deadline != DateTime.MinValue) // If second window was closed manualy,empty project will be created hence this if statement
+            {
+                Project project = new Project { Name = name, Goal = goal, Deadline = deadline };
+                Projects.Add(project);
+                MessageBox.Show($"Successfuly created Project: {project.Name}");
+            }
+
+            newProject.Closed -= newProject_Closed; //detach event handler 
                           
+        }
+        
+        private void newProject_Closed(object sender, EventArgs e) //Doesn't really serve a purpose right now
+        {
+            MessageBox.Show("You Closed the window");
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Tasker
                     MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)"); //if date input is invalid or wrong format
 
                 }
-                if (date != DateTime.MinValue) //if dateTime is empty or uninitialised
+                if (date != DateTime.MinValue) //if dateTime is not empty or uninitialised
                 {
                     Close(); //close Window
                 }

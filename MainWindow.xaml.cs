@@ -30,30 +30,33 @@ namespace Tasker
         public MainWindow()
         {
             InitializeComponent();
-            Projects = new ObservableCollection<Project>();
+            Projects = new ObservableCollection<Project>()
+            {
+                new Project {Name = "Create Project",Goal="",Deadline = new DateTime(6/12/2000)}
+            };
             DataContext = this;
-        }
-
-    
-
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            label.Content = "You Clicked The Button";
         }
 
         private void Create_Project(object sender, RoutedEventArgs e)
         {
             try
             {
-                var date = DateTime.Parse((deadline.Text).ToString());
-                Project project = new Project { Name= name.Text,Goal = goal.Text, Deadline= date };
-                Projects.Add(project);
-                MessageBox.Show($"Successfuly created Project: {project.Name}");
+                if (name.Text == "" || goal.Text == "" || deadline.Text == "")
+                {
+                    MessageBox.Show("All Fields must be filled");
+
+                }
+                else
+                {
+                    var date = DateTime.Parse((deadline.Text).ToString());
+                    Project project = new Project { Name = name.Text, Goal = goal.Text, Deadline = date };
+                    Projects.Add(project);
+                    MessageBox.Show($"Successfuly created Project: {project.Name}");
+                }
             }
             catch
             {
-                MessageBox.Show("All Fields Must Be Filled!");
+                MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)");
             }
         }
     }

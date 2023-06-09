@@ -15,12 +15,6 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <TextBox x:Name="goal" Margin="16,155,0,0" TextWrapping="Wrap" Text=""  VerticalAlignment="Top"  Height="24" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="124"/>
-        <TextBox x:Name="deadline" Margin="16,207,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="25" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="124"/>
-        <TextBox x:Name="name" Margin="16,102,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="25" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="124"/>
-        <Label Content="Name:" HorizontalAlignment="Left" Margin="16,76,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="26" Width="46"/>
-        <Label Content="Goal:" HorizontalAlignment="Left" Margin="16,132,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="26" Width="40"/>
-        <Label Content="DeadLine:" HorizontalAlignment="Left" Margin="16,184,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="26" Width="66"/>
         <Button Content="+" Click="Create_Project"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="144,12,0,0" Padding="0,0,0,0" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="30" VerticalAlignment="Top" HorizontalAlignment="Left" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">

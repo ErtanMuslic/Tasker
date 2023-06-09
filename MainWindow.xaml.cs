@@ -34,30 +34,25 @@ namespace Tasker
             {
                 new Project {Name = "Create Project",Goal="",Deadline = new DateTime(6/12/2000)}
             };
-            DataContext = this;
+            DataContext = this; //Bind Projects List to ComboBox 
         }
 
         private void Create_Project(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (name.Text == "" || goal.Text == "" || deadline.Text == "")
-                {
-                    MessageBox.Show("All Fields must be filled");
+            CreateProjectWindow newProject = new CreateProjectWindow();
+            newProject.ShowDialog();  //Main Window will stay open until second window is closed
 
-                }
-                else
-                {
-                    var date = DateTime.Parse((deadline.Text).ToString());
-                    Project project = new Project { Name = name.Text, Goal = goal.Text, Deadline = date };
-                    Projects.Add(project);
-                    MessageBox.Show($"Successfuly created Project: {project.Name}");
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)");
-            }
+            string name = newProject.name.Text; //get name input from second window
+            string goal = newProject.goal.Text; //get goal input from second window
+            DateTime deadline = newProject.date; //get deadline date from second window
+
+            newProject.Close(); //close second window
+
+           
+             Project project = new Project { Name = name, Goal = goal, Deadline = deadline };
+             Projects.Add(project);
+             MessageBox.Show($"Successfuly created Project: {project.Name}");
+                          
         }
     }
 }

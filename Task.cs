@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Tasker
 {
-    internal class Task
+    public class Task
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Priority { get; set; }
+        public DateTime Date { get; set; }
+        public List<string> Member { get; set; }
     }
 }

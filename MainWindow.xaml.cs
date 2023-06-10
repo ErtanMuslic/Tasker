@@ -29,6 +29,9 @@ namespace Tasker
         public ObservableCollection<Project> Projects { get; set; }
 
         public ObservableCollection<Task> Tasks { get; set; }
+
+
+        public ObservableCollection<string> Members { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -36,24 +39,31 @@ namespace Tasker
             {
                 new Project {Name = "Create Project",Goal="",Deadline = new DateTime(6/12/2000)}
             };
-            DataContext = this; //Bind Projects List to ComboBox 
+
+            cbx.ItemsSource = Projects;
+
+            //DataContext = this; //Bind Projects List to ComboBox 
 
             Tasks = new ObservableCollection<Task>()
             {
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(1/1/2000)},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Memeber","Ramiz","Ertan"}},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
 
             };
 
             taskList.ItemsSource = Tasks; // Bind taskList to Tasks (ItemsControl)
+
+
         }
 
         private void Create_Project(object sender, RoutedEventArgs e)

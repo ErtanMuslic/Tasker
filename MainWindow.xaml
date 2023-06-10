@@ -30,7 +30,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <ComboBox x:Name="cbx" ItemsSource="{Binding Projects}" SelectedIndex="0"  IsEditable="True"  DisplayMemberPath="Name" Grid.Row="0" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Center" Width="120" Height="31"/>
+        <ComboBox x:Name="cbx" SelectedIndex="0"  IsEditable="True"  DisplayMemberPath="Name" Grid.Row="0" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Center" Width="120" Height="31"/>
 
 
 
@@ -44,16 +44,16 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Margin="5" Padding="5" MinHeight="200" MinWidth="180">
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="5" Padding="5" MinHeight="250" MinWidth="160" CornerRadius="5">
                             <StackPanel>
                                 <TextBlock Text="{Binding Name}" Width="auto" FontWeight="Bold" Margin="0,0,0,15" />
                                 <Border BorderThickness="1" BorderBrush="Black" CornerRadius="5">
-                                    <TextBlock Text="{Binding Description}" MinHeight="100" />
+                                    <TextBlock Text="{Binding Description}" MinHeight="130" Padding="5,5,0,0" />
                                 </Border>
                                 <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
                                     <TextBlock Text="{Binding Priority}" FontStyle="Italic" FontSize="12" Margin="10,0,10,0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Date}" FontStyle="Italic" FontSize="12" Margin="10,0,10,0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <ComboBox/>
+                                    <TextBlock Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}" FontStyle="Italic" FontSize="12" Margin="10,0,10,0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <ComboBox ItemsSource="{Binding Members}" SelectedIndex="0" Margin="15,0,0,0"  />
                                 </StackPanel>
                             </StackPanel>
                         </Border>

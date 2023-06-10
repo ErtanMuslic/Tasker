@@ -96,7 +96,22 @@ namespace Tasker
 
         private void Create_Task(object sender, RoutedEventArgs e)
         {
+            CreateTaskWindow newTask = new CreateTaskWindow();
+            newTask.ShowDialog();
 
+
+            string name = newTask.name.Text;
+            string desc = newTask.description.Text;
+            int priority = newTask.Priority;
+            DateTime date = newTask.TaskDate;
+            List<string> members = newTask.Members;
+
+            if(name != "" && desc != "" && priority != 0 && date != DateTime.MinValue)
+            {
+                Task task = new Task { Name=name,Description =desc , Priority = priority , Date = date ,Members = members};
+                Tasks.Add(task);
+                MessageBox.Show($"Successfully created Task: {task.Name}");
+            }
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Tasker
 
             Tasks = new ObservableCollection<Task>()
             {
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(1/1/2000)},
                 new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
                 new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
                 new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
@@ -82,6 +82,11 @@ namespace Tasker
         private void newProject_Closed(object sender, EventArgs e) //Doesn't really serve a purpose right now
         {
             //MessageBox.Show("You Closed the window");
+        }
+
+        private void Create_Task(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

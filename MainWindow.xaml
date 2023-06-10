@@ -8,21 +8,30 @@
         Title="MainWindow" WindowState="Maximized" Height="450" Width="800">
     <Grid>
 
-        <Button Content="Filter"  x:Name="Filter" RenderTransformOrigin="1.333,1.219" Margin="720,10,10,0" BorderBrush="{x:Null}" Background="#FF0F0707" Foreground="#FFF7F7F7" FontStyle="Italic" Padding="1,1,1,1" BorderThickness="0,0,0,0" Width="70" Height="28" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="7"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button Content="+" Click="Create_Project"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="144,12,0,0" Padding="0,0,0,0" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="30" VerticalAlignment="Top" HorizontalAlignment="Left" >
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="7"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <ComboBox x:Name="cbx" ItemsSource="{Binding Projects}" SelectedIndex="0"  IsEditable="True"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Top" Width="120" Height="31"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
 
+
+        <Border Grid.Row="0" Background="#FFE5F4E3"/>
+        <Button Content="Filter"  x:Name="Filter" Grid.Row="0" RenderTransformOrigin="1.333,1.219" Margin="720,10,10,0" BorderBrush="{x:Null}" Background="#FF0F0707" Foreground="#FFF7F7F7" FontStyle="Italic" Padding="1,1,1,1" BorderThickness="0,0,0,0" Width="70" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Content="+" Click="Create_Project" Grid.Row="0"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="144,12,0,0" Padding="0,0,0,0" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left" >
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <ComboBox x:Name="cbx" ItemsSource="{Binding Projects}" SelectedIndex="0"  IsEditable="True"  DisplayMemberPath="Name" Grid.Row="0" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Center" Width="120" Height="31"/>
+
+
+        <Border  Grid.Row="1" Background="#1E1E1E"/>
     </Grid>
 </Window>

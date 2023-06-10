@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Tasker"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" Height="450" Width="800">
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -31,7 +32,26 @@
         </Button>
         <ComboBox x:Name="cbx" ItemsSource="{Binding Projects}" SelectedIndex="0"  IsEditable="True"  DisplayMemberPath="Name" Grid.Row="0" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Center" Width="120" Height="31"/>
 
-
-        <Border  Grid.Row="1" Background="#1E1E1E"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <ItemsControl Name="taskList" Margin="72,22,45,25">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="5" Padding="10" MinHeight="200" MinWidth="150">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Description}"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        </ScrollViewer>
+        
+        <Border  Grid.Row="1"/>
     </Grid>
 </Window>

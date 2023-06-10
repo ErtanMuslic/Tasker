@@ -12,6 +12,6 @@ namespace Tasker
         public string Description { get; set; }
         public int Priority { get; set; }
         public DateTime Date { get; set; }
-        public List<string> Member { get; set; }
+        //public List<string> Members { get; set; }
     }
 }

@@ -27,6 +27,8 @@ namespace Tasker
     {
 
         public ObservableCollection<Project> Projects { get; set; }
+
+        public ObservableCollection<Task> Tasks { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -35,6 +37,23 @@ namespace Tasker
                 new Project {Name = "Create Project",Goal="",Deadline = new DateTime(6/12/2000)}
             };
             DataContext = this; //Bind Projects List to ComboBox 
+
+            Tasks = new ObservableCollection<Task>()
+            {
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(6/12/2000)},
+                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(6/12/2000)},
+
+            };
+
+            taskList.ItemsSource = Tasks; // Bind taskList to Tasks (ItemsControl)
         }
 
         private void Create_Project(object sender, RoutedEventArgs e)
@@ -62,7 +81,7 @@ namespace Tasker
         
         private void newProject_Closed(object sender, EventArgs e) //Doesn't really serve a purpose right now
         {
-            MessageBox.Show("You Closed the window");
+            //MessageBox.Show("You Closed the window");
         }
     }
 }

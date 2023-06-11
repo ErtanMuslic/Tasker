@@ -175,7 +175,7 @@ namespace Tasker
             if (SelectedFilter == 1) //If first filter is selected (Priority ASC)
             {
                 
-                 Filtered_Tasks = new ObservableCollection<Task>((Projects[SelectedIndex].Tasks).OrderBy(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+                 Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderBy(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
                 Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
                 foreach (var items in Filtered_Tasks)
                 {
@@ -185,7 +185,7 @@ namespace Tasker
              
             else if(SelectedFilter == 2) //if second filter is selected (Priority DESC)
             {
-                Filtered_Tasks = new ObservableCollection<Task>((Projects[SelectedIndex].Tasks).OrderByDescending(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+                Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderByDescending(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
                 Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
                 foreach (var items in Filtered_Tasks)
                 {
@@ -195,12 +195,22 @@ namespace Tasker
 
             else if(SelectedFilter == 3) // if third filter is selected (Date ASC)
             {
-
+                Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderBy(p => p.Date)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+                Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
+                foreach (var items in Filtered_Tasks)
+                {
+                    Projects[SelectedIndex].Tasks.Add(items); //Add them in order of Priority
+                }
             }
 
             else if(SelectedFilter == 4) // if fourth filter is selecter (Date DESC)
             {
-
+                Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderByDescending(p => p.Date)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+                Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
+                foreach (var items in Filtered_Tasks)
+                {
+                    Projects[SelectedIndex].Tasks.Add(items); //Add them in order of Priority
+                }
             }
         }
     }

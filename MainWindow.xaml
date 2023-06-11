@@ -30,7 +30,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <ComboBox x:Name="cbx" SelectedIndex="0"  IsEditable="True"  DisplayMemberPath="Name" Grid.Row="0" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Center" Width="120" Height="31"/>
+        <ComboBox x:Name="cbx" SelectionChanged="cbx_SelectionChanged" IsEditable="True"  DisplayMemberPath="Name" Grid.Row="0" HorizontalAlignment="Left" Margin="18,13,0,0" VerticalAlignment="Center" Width="120" Height="31"/>
 
 
 

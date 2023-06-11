@@ -29,7 +29,6 @@ namespace Tasker
         public ObservableCollection<Project> Projects { get; set; }
 
         public ObservableCollection<Task> Tasks { get; set; }
-
         public ObservableCollection<string> Members { get; set; }
 
         public ObservableCollection<Task> Filtered_Tasks { get; set; }
@@ -46,11 +45,12 @@ namespace Tasker
             
             Projects = new ObservableCollection<Project>()
             {
-                new Project {Name = "Create Project",Goal="",Deadline = new DateTime(6/12/2000)}
+                new Project {Name = "Create Project"},
+                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir", } } } }
             };
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
-            cbx.SelectedIndex = SelectedIndex; // Initialy ComboBox will point to the "Create Project" which is on index 0
+            cbx.SelectedIndex = Projects.Count - 1; // Initialy ComboBox will point to the "Create Project" which is on index 0
 
 
             //Tasks = new ObservableCollection<Task>() //Will be deleted shortly
@@ -82,7 +82,7 @@ namespace Tasker
             };
 
             Cbx_Filter.ItemsSource = Filters; //Bind Filters to Filter ComboBox
-            Cbx_Filter.SelectedIndex = SelectedIndex; //Show first fillter on application start
+            Cbx_Filter.SelectedIndex = 0; //Show first fillter on application start
 
         }
 
@@ -155,6 +155,7 @@ namespace Tasker
             
             CheckIndex();
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // When selection is changed remove previous Tasks and add show Tasks for newly selected Project
+            Cbx_Filter.SelectedIndex = 0;
         }
 
         private int CheckIndex()
@@ -212,6 +213,16 @@ namespace Tasker
                     Projects[SelectedIndex].Tasks.Add(items); //Add them in order of Priority
                 }
             }
+        }
+
+        private void Remove_Task(object sender, MouseButtonEventArgs e)
+        {
+            
+
+            Border border= (Border)sender; //Get Clicked Border 
+            Task selectedTask = border.DataContext as Task; //Convert DataContex of border as Task
+            Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
+
         }
     }
 }

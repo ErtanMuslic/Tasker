@@ -32,6 +32,10 @@ namespace Tasker
 
         public ObservableCollection<string> Members { get; set; }
 
+        public ObservableCollection<Task> Filtered_Tasks { get; set; }
+
+        public ObservableCollection<string> Filters { get; set; }
+
         public int SelectedIndex = 0; // Index of the element that will be selected when app starts for the first time
 
 
@@ -69,6 +73,17 @@ namespace Tasker
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // Bind taskList to Projects[Index].Tasks(all tasks in the List) (ItemsControl)
 
 
+            Filters = new ObservableCollection<string>() //Create list of available filters
+            {   "Filter",
+                "^ Priority",
+                "v Priority",
+                "^ Date",
+                "v Date",
+            };
+
+            Cbx_Filter.ItemsSource = Filters; //Bind Filters to Filter ComboBox
+            Cbx_Filter.SelectedIndex = SelectedIndex; //Show first fillter on application start
+
         }
 
         private void Create_Project(object sender, RoutedEventArgs e)
@@ -103,8 +118,7 @@ namespace Tasker
                 Projects[SelectedIndex].Name = cbx.Text;
                 cbx.ItemsSource = Projects;
                 
-                MessageBox.Show($"{cbx.Text}");
-                MessageBox.Show($"{SelectedIndex}");
+               
             }
                           
         }
@@ -151,6 +165,43 @@ namespace Tasker
                 return SelectedIndex;
             }
             return -1;
+        }
+
+        private void Cbx_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var SelectedFilter = Cbx_Filter.SelectedIndex; //Get Index of the choosen filter
+            SelectedIndex = cbx.SelectedIndex; //Get index of selected Project
+
+            if (SelectedFilter == 1) //If first filter is selected (Priority ASC)
+            {
+                
+                 Filtered_Tasks = new ObservableCollection<Task>((Projects[SelectedIndex].Tasks).OrderBy(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+                Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
+                foreach (var items in Filtered_Tasks)
+                {
+                    Projects[SelectedIndex].Tasks.Add(items); //Add them in order of Priority
+                }
+            }
+             
+            else if(SelectedFilter == 2) //if second filter is selected (Priority DESC)
+            {
+                Filtered_Tasks = new ObservableCollection<Task>((Projects[SelectedIndex].Tasks).OrderByDescending(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+                Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
+                foreach (var items in Filtered_Tasks)
+                {
+                    Projects[SelectedIndex].Tasks.Add(items); //Add them in order of Priority
+                }
+            }
+
+            else if(SelectedFilter == 3) // if third filter is selected (Date ASC)
+            {
+
+            }
+
+            else if(SelectedFilter == 4) // if fourth filter is selecter (Date DESC)
+            {
+
+            }
         }
     }
 }

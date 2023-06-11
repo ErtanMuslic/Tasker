@@ -16,13 +16,17 @@
 
 
         <Border Grid.Row="0" Background="#FFE5F4E3"/>
-        <Button Content="Filter"  x:Name="Filter" Grid.Row="0" RenderTransformOrigin="1.333,1.219" Margin="720,10,10,0" BorderBrush="{x:Null}" Background="#FF0F0707" Foreground="#FFF7F7F7" FontStyle="Italic" Padding="1,1,1,1" BorderThickness="0,0,0,0" Width="70" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right">
+        <ComboBox x:Name="Cbx_Filter" SelectionChanged="Cbx_Filter_SelectionChanged" Margin="0,24,10,10" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="85" Height="28" />
+
+        <!--<Button Content="Filter"  x:Name="Filter" Grid.Row="0" RenderTransformOrigin="1.333,1.219" Margin="720,10,10,0" BorderBrush="{x:Null}" Background="#FF0F0707" Foreground="#FFF7F7F7" FontStyle="Italic" Padding="1,1,1,1" BorderThickness="0,0,0,0" Width="70" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="7"/>
                 </Style>
             </Button.Resources>
-        </Button>
+        </Button>-->
+
+
         <Button Content="+" Click="Create_Project" Grid.Row="0"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="144,12,0,0" Padding="0,0,0,0" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
@@ -61,9 +65,9 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        
-        
-        <Button Content="+" Click="Create_Task"  Grid.Row="0"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="0,20,85,10" Padding="0,0,0,0" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="30" HorizontalAlignment="Right">
+
+
+        <Button Content="+" Click="Create_Task"  Grid.Row="0"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="0,22,100,8" Padding="0,0,0,0" FontSize="22" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="30" HorizontalAlignment="Right">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="7"/>

@@ -86,13 +86,16 @@ namespace Tasker
 
         }
 
+
+
+
+
         private void Create_Project(object sender, RoutedEventArgs e)
         {
             if (cbx.SelectedIndex == 0)
             {
 
                 CreateProjectWindow newProject = new CreateProjectWindow();
-                newProject.Closed += newProject_Closed; //add event handling method for when second window is closed manualy
                 newProject.ShowDialog();  //Can't Interact with Main Window until second Window is closed
 
                 string name = newProject.name.Text; //get name input from second window
@@ -109,24 +112,19 @@ namespace Tasker
                     MessageBox.Show($"Successfuly created Project: {project.Name} , Index: {cbx.SelectedIndex}");
                 }
 
-                newProject.Closed -= newProject_Closed; //detach event handler 
             }
             else
             {
                 
                 CheckIndex();
                 Projects[SelectedIndex].Name = cbx.Text;
-                cbx.ItemsSource = Projects;
                 
                
             }
                           
         }
         
-        private void newProject_Closed(object sender, EventArgs e) //Doesn't really serve a purpose right now
-        {
-            //MessageBox.Show("You Closed the window");
-        }
+
 
         private void Create_Task(object sender, RoutedEventArgs e)
         {
@@ -150,6 +148,9 @@ namespace Tasker
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; //Bind ItemsControl to the selected Project to show all Tasks for that specific Project
         }
 
+
+
+
         private void cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
@@ -157,6 +158,11 @@ namespace Tasker
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // When selection is changed remove previous Tasks and add show Tasks for newly selected Project
             Cbx_Filter.SelectedIndex = 0;
         }
+
+
+
+
+
 
         private int CheckIndex()
         {
@@ -168,10 +174,15 @@ namespace Tasker
             return -1;
         }
 
+
+
+
+
+
         private void Cbx_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var SelectedFilter = Cbx_Filter.SelectedIndex; //Get Index of the choosen filter
-            SelectedIndex = cbx.SelectedIndex; //Get index of selected Project
+           
 
             if (SelectedFilter == 1) //If first filter is selected (Priority ASC)
             {
@@ -215,13 +226,36 @@ namespace Tasker
             }
         }
 
-        private void Remove_Task(object sender, MouseButtonEventArgs e)
+        private void Remove_Task(object sender, MouseButtonEventArgs e)  //Left Click
         {
-            
-
-            Border border= (Border)sender; //Get Clicked Border 
+            Border border= (Border)sender; //Get Clicked Border from sender casted as Border 
             Task selectedTask = border.DataContext as Task; //Convert DataContex of border as Task
             Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
+
+        }
+
+        private void Update_Task(object sender, MouseButtonEventArgs e)  //Right Click
+        {
+            Border border = (Border)sender; //Get clicked Border from sender casted as Border
+            Task selectedTask = border.DataContext as Task; //Convert DataContex of border as Task
+
+            CreateTaskWindow updateTask = new CreateTaskWindow(); //Create new Window to Update Task
+            updateTask.ShowDialog();
+
+            string name = updateTask.name.Text;  //Get updated data
+            string desc = updateTask.description.Text;
+            int priority = updateTask.Priority;
+            DateTime date = updateTask.TaskDate;
+            List<string> members = updateTask.Members;
+
+            if (name != "" && desc != "" && priority != 0 && date != DateTime.MinValue) //Check if all fields are filled correctly
+            {
+                Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members }; //Create new Task
+                Projects[SelectedIndex].Tasks.Add(task); //Add newly updated Task to the selected Project
+                Projects[SelectedIndex].Tasks.Remove(selectedTask); //Remove Old Task 
+                MessageBox.Show($"Successfully updated Task: {task.Name}"); 
+            }
+            
 
         }
     }

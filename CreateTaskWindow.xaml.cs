@@ -34,6 +34,10 @@ namespace Tasker
                 "Select Member",
                 "Ertan",
                 "Ramiz",
+                "Ermin",
+                "Marko",
+                "Amel",
+                "Samir",
             };
         }
 

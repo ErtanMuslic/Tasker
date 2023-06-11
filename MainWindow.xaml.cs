@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
@@ -35,6 +34,7 @@ namespace Tasker
 
         public int SelectedIndex = 0; // Index of the element that will be selected when app starts for the first time
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,22 +49,22 @@ namespace Tasker
             cbx.SelectedIndex = SelectedIndex; // Initialy ComboBox will point to the "Create Project" which is on index 0
 
 
-            Tasks = new ObservableCollection<Task>() //Will be deleted shortly
-            {
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Memeber","Ramiz","Ertan"}},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-                new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //Tasks = new ObservableCollection<Task>() //Will be deleted shortly
+            //{
+            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Memeber","Ramiz","Ertan"}},
+            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
+            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
+            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
+            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
 
-            };
+            //};
 
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // Bind taskList to Projects[Index].Tasks(all tasks in the List) (ItemsControl)
 
@@ -73,25 +73,39 @@ namespace Tasker
 
         private void Create_Project(object sender, RoutedEventArgs e)
         {
-            CreateProjectWindow newProject = new CreateProjectWindow();
-            newProject.Closed += newProject_Closed; //add event handling method for when second window is closed manualy
-            newProject.ShowDialog();  //Main Window will stay open until second window is closed
-
-            string name = newProject.name.Text; //get name input from second window
-            string goal = newProject.goal.Text; //get goal input from second window
-            DateTime deadline = newProject.date; //get deadline date from second window
-
-            newProject.Close(); //close second window
-
-            if (name != "" && goal != "" && deadline != DateTime.MinValue) // If second window was closed manualy,empty project will be created hence this if statement
+            if (cbx.SelectedIndex == 0)
             {
-                Project project = new Project { Name = name, Goal = goal, Deadline = deadline , Tasks = new ObservableCollection<Task>()};
-                Projects.Add(project); //Add new Project
-                cbx.SelectedIndex++; //Select newly created Project
-                MessageBox.Show($"Successfuly created Project: {project.Name}");
-            }
 
-            newProject.Closed -= newProject_Closed; //detach event handler 
+                CreateProjectWindow newProject = new CreateProjectWindow();
+                newProject.Closed += newProject_Closed; //add event handling method for when second window is closed manualy
+                newProject.ShowDialog();  //Can't Interact with Main Window until second Window is closed
+
+                string name = newProject.name.Text; //get name input from second window
+                string goal = newProject.goal.Text; //get goal input from second window
+                DateTime deadline = newProject.date; //get deadline date from second window
+
+                newProject.Close(); //close second window
+
+                if (name != "" && goal != "" && deadline != DateTime.MinValue) // If second window was closed manualy,empty project will be created hence this if statement
+                {
+                    Project project = new Project { Name = name, Goal = goal, Deadline = deadline, Tasks = new ObservableCollection<Task>() };
+                    Projects.Add(project); //Add new Project
+                    cbx.SelectedIndex = Projects.Count - 1; //Select newly created Project
+                    MessageBox.Show($"Successfuly created Project: {project.Name} , Index: {cbx.SelectedIndex}");
+                }
+
+                newProject.Closed -= newProject_Closed; //detach event handler 
+            }
+            else
+            {
+                
+                CheckIndex();
+                Projects[SelectedIndex].Name = cbx.Text;
+                cbx.ItemsSource = Projects;
+                
+                MessageBox.Show($"{cbx.Text}");
+                MessageBox.Show($"{SelectedIndex}");
+            }
                           
         }
         
@@ -105,7 +119,8 @@ namespace Tasker
             CreateTaskWindow newTask = new CreateTaskWindow(); //Same logic for Creating Project applies here
             newTask.ShowDialog();
 
-            SelectedIndex = cbx.SelectedIndex; //Get Index of the currently selected project where the Tasks will be added
+            
+            CheckIndex();
             string name = newTask.name.Text;
             string desc = newTask.description.Text;
             int priority = newTask.Priority;
@@ -123,7 +138,19 @@ namespace Tasker
 
         private void cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            taskList.ItemsSource = Projects[cbx.SelectedIndex].Tasks; // Shen selection is changed remove previous Tasks and add show Tasks for newly selected Project
+            
+            CheckIndex();
+            taskList.ItemsSource = Projects[SelectedIndex].Tasks; // When selection is changed remove previous Tasks and add show Tasks for newly selected Project
+        }
+
+        private int CheckIndex()
+        {
+            if(cbx.SelectedIndex != -1) //Because Selection changed return -1 when we want to edit text in combobox, i save index of the element that we want to change so we can update name
+            {
+                SelectedIndex = cbx.SelectedIndex;
+                return SelectedIndex;
+            }
+            return -1;
         }
     }
 }

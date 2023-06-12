@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.CommandBars;
 
@@ -34,6 +35,8 @@ namespace Tasker
         public ObservableCollection<Task> Filtered_Tasks { get; set; }
 
         public ObservableCollection<string> Filters { get; set; }
+
+        public DispatcherTimer Timer; //Timer that checks deadline every 10 sec
 
         public int SelectedIndex = 0; // Index of the element that will be selected when app starts for the first time
 
@@ -84,9 +87,30 @@ namespace Tasker
             Cbx_Filter.ItemsSource = Filters; //Bind Filters to Filter ComboBox
             Cbx_Filter.SelectedIndex = 0; //Show first fillter on application start
 
+            Timer = new DispatcherTimer(); //Craete new Timer
+            Timer.Interval = TimeSpan.FromSeconds(10); // Set interval to check every 10 seconds
+            Timer.Tick += Timer_Tick; //Add a function to be called when 10 seconds have passed
+            Timer.Start(); //Start Timer
+
+
         }
 
 
+        private void Timer_Tick(object sender, EventArgs e) //Called every 10 seconds
+        {
+            CheckDeadline(); //Checks the deadline
+        }
+
+        private void CheckDeadline()
+        {
+            foreach(var items in Projects[SelectedIndex].Tasks) //Go through each task
+            {
+                if(items.Date.Date == DateTime.Now.AddDays(1).Date) // If date on task is 1 day away from current date
+                {
+                    MessageBox.Show($"Warning: {items.Name} has 1 day left to complete"); //Show Warning
+                }
+            }
+        }
 
 
 

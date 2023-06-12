@@ -99,16 +99,31 @@ namespace Tasker
         private void Timer_Tick(object sender, EventArgs e) //Called every 10 seconds
         {
             CheckDeadline(); //Checks the deadline
+            GenerateProgressReports(); //Generate progress Reports
         }
 
         private void CheckDeadline()
         {
-            foreach(var items in Projects[SelectedIndex].Tasks) //Go through each task
+            foreach(Task items in Projects[SelectedIndex].Tasks) //Go through each task
             {
                 if(items.Date.Date == DateTime.Now.AddDays(1).Date) // If date on task is 1 day away from current date
                 {
                     MessageBox.Show($"Warning: {items.Name} has 1 day left to complete"); //Show Warning
                 }
+            }
+        }
+
+        private void GenerateProgressReports()
+        {
+            foreach(Task items in Projects[SelectedIndex].Tasks)
+            {
+                string report = $"Task: {items.Name}\n" +
+                                $"Description: {items.Description}\n" +
+                                $"Priority: {items.Priority}\n" +
+                                $"Deadline: {items.Date}\n" +
+                                $"Progress: ADD\n";
+
+                Console.WriteLine(report);
             }
         }
 
@@ -141,7 +156,7 @@ namespace Tasker
             {
                 
                 CheckIndex();
-                Projects[SelectedIndex].Name = cbx.Text;
+                Projects[SelectedIndex].Name = cbx.Text; //Update Project Name
                 
                
             }
@@ -250,6 +265,9 @@ namespace Tasker
             }
         }
 
+
+
+
         private void Remove_Task(object sender, MouseButtonEventArgs e)  //Left Click
         {
             Border border= (Border)sender; //Get Clicked Border from sender casted as Border 
@@ -257,6 +275,9 @@ namespace Tasker
             Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
 
         }
+
+
+
 
         private void Update_Task(object sender, MouseButtonEventArgs e)  //Right Click
         {

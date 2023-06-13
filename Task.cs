@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Tasker
         public int Priority { get; set; }
         public DateTime Date { get; set; }
         public List<string> Members { get; set; }
+
+        public ObservableCollection<Comment> Comments { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -49,7 +49,7 @@ namespace Tasker
             Projects = new ObservableCollection<Project>()
             {
                 new Project {Name = "Create Project"},
-                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir", } } } }
+                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",},Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="Jebi se"} } } } }
             };
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
@@ -74,6 +74,7 @@ namespace Tasker
             //};
 
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // Bind taskList to Projects[Index].Tasks(all tasks in the List) (ItemsControl)
+            
 
 
             Filters = new ObservableCollection<string>() //Create list of available filters
@@ -180,7 +181,7 @@ namespace Tasker
 
             if(name != "" && desc != "" && priority != 0 && date != DateTime.MinValue)
             {
-                Task task = new Task { Name=name,Description =desc , Priority = priority , Date = date ,Members = members};
+                Task task = new Task { Name=name,Description =desc , Priority = priority , Date = date ,Members = members , Comments = new ObservableCollection<Comment>()};
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly created Task to the selected Project
                 MessageBox.Show($"Successfully created Task: {task.Name}");
             }
@@ -306,6 +307,7 @@ namespace Tasker
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
 
         }
     }

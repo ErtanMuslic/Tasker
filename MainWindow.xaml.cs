@@ -40,6 +40,8 @@ namespace Tasker
 
         public int SelectedIndex = 0; // Index of the element that will be selected when app starts for the first time
 
+        public int TaskIndex = 0;
+
 
         public MainWindow()
         {
@@ -266,7 +268,12 @@ namespace Tasker
             }
         }
 
-
+        private void Border_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Border border = (Border)sender;
+            Task selectedTask = border.DataContext as Task;
+            TaskIndex = Projects[SelectedIndex].Tasks.IndexOf(selectedTask); //Get Index of task that the mouse is placed over
+        }
 
 
         private void Remove_Task(object sender, MouseButtonEventArgs e)  //Left Click
@@ -305,11 +312,58 @@ namespace Tasker
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Add_Comment(object sender, RoutedEventArgs e)
         {
+            ItemsControl items = (ItemsControl)FindName("taskList");
+            TextBox text = FindChild<TextBox>(items,"comment_Text");
+            ComboBox name = FindChild<ComboBox>(items, "comment_Name");
 
+            if (name.SelectedIndex == 0)
+            {
+                MessageBox.Show("You must select a member");
+            }
+            else
+            {
+                string commentName = name.Text;
+                string commentText = text.Text;
+
+                Comment comment = new Comment { MemberName = commentName, Text = commentText };
+
+                Projects[SelectedIndex].Tasks[TaskIndex].Comments.Add(comment);
+            }
+            
+            
+           
 
         }
+        private T FindChild<T>(DependencyObject parent, string childName) where T : FrameworkElement //Recursively search element by name
+        {                                                                                            //Copied from the internet
+            if (parent == null)                                                                      //Used to get access to TextBox which is deeply nested 
+                return null;                                                                         //in taskList. Could not access it otherwise
+                                                                                                     
+            T foundChild = null;
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T childElement && childElement.Name == childName)
+                {
+                    foundChild = childElement;
+                    break;
+                }
+                else
+                {
+                    foundChild = FindChild<T>(child, childName);
+                    if (foundChild != null)
+                        break;
+                }
+            }
+
+            return foundChild;
+        }
+
+        
     }
 }
 

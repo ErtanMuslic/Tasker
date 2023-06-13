@@ -40,7 +40,7 @@
 
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-            <ItemsControl Name="taskList" Margin="72,22,45,25">
+            <ItemsControl x:Name="taskList" Margin="72,22,45,25">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"/>
@@ -48,7 +48,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border MouseRightButtonDown="Update_Task" MouseLeftButtonDown="Remove_Task" BorderBrush="Black" BorderThickness="1" Margin="5" Padding="5" MinHeight="250" MinWidth="160" CornerRadius="5">
+                        <Border MouseRightButtonDown="Update_Task" MouseEnter="Border_MouseEnter"  MouseLeftButtonDown="Remove_Task" BorderBrush="Black" BorderThickness="1" Margin="5" Padding="5" MinHeight="250" MinWidth="160" CornerRadius="5">
                             <StackPanel>
                                 <TextBlock Text="{Binding Name}" Width="auto" FontWeight="Bold" Margin="0,0,0,15" />
                                 <Border BorderThickness="0.5" BorderBrush="Black" CornerRadius="5">
@@ -72,10 +72,10 @@
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                         <StackPanel>
-                                            <ComboBox ItemsSource="{Binding Members}" SelectedIndex="0" FontWeight="Bold"  Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MaxWidth="80"/>
-                                            <TextBox TextWrapping="Wrap" Text="Comment" Margin="5,0,0,5" MaxWidth="215" HorizontalAlignment="Left" VerticalAlignment="Center" Width="215"/>
-                                            <Button  Content="Add Comment" Click="Button_Click" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,5"/>
-                                        </StackPanel>
+                                          <ComboBox x:Name="comment_Name" ItemsSource="{Binding Members}" SelectedIndex="0" FontWeight="Bold"  Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" MaxWidth="100" FontSize="10"/>
+                                           <TextBox x:Name="comment_Text" TextWrapping="Wrap" Margin="5,0,0,5" MaxWidth="215" HorizontalAlignment="Left" VerticalAlignment="Center" Width="215"/>
+                                           <Button  Content="Add Comment" Click="Add_Comment" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,5"/>
+                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>

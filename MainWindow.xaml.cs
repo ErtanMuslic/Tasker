@@ -51,7 +51,7 @@ namespace Tasker
             Projects = new ObservableCollection<Project>()
             {
                 new Project {Name = "Create Project"},
-                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",},Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="Jebi se"} } } } }
+                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",},Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
             };
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
@@ -102,18 +102,25 @@ namespace Tasker
         private void Timer_Tick(object sender, EventArgs e) //Called every 10 seconds
         {
             CheckDeadline(); //Checks the deadline
-            GenerateProgressReports(); //Generate progress Reports
+            //GenerateProgressReports(); //Generate progress Reports
         }
 
         private void CheckDeadline()
         {
-            foreach(Task items in Projects[SelectedIndex].Tasks) //Go through each task
+            if (Projects[SelectedIndex].Tasks == null)
             {
-                if(items.Date.Date == DateTime.Now.AddDays(1).Date) // If date on task is 1 day away from current date
+            }
+            else
+            {
+                foreach (Task items in Projects[SelectedIndex].Tasks) //Go through each task
                 {
-                    MessageBox.Show($"Warning: {items.Name} has 1 day left to complete"); //Show Warning
+                    if (items.Date.Date == DateTime.Now.AddDays(1).Date) // If date on task is 1 day away from current date
+                    {
+                        MessageBox.Show($"Warning: {items.Name} has 1 day left to complete"); //Show Warning
+                    }
                 }
             }
+            
         }
 
         private void GenerateProgressReports()
@@ -271,7 +278,7 @@ namespace Tasker
         private void Border_MouseEnter(object sender, MouseEventArgs e)
         {
             Border border = (Border)sender;
-            Task selectedTask = border.DataContext as Task;
+            Task selectedTask = (Task)border.DataContext;
             TaskIndex = Projects[SelectedIndex].Tasks.IndexOf(selectedTask); //Get Index of task that the mouse is placed over
         }
 
@@ -279,7 +286,7 @@ namespace Tasker
         private void Remove_Task(object sender, MouseButtonEventArgs e)  //Left Click
         {
             Border border= (Border)sender; //Get Clicked Border from sender casted as Border 
-            Task selectedTask = border.DataContext as Task; //Convert DataContex of border as Task
+            Task selectedTask = (Task)border.DataContext; //Convert DataContex of border as Task
             Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
 
         }
@@ -290,7 +297,7 @@ namespace Tasker
         private void Update_Task(object sender, MouseButtonEventArgs e)  //Right Click
         {
             Border border = (Border)sender; //Get clicked Border from sender casted as Border
-            Task selectedTask = border.DataContext as Task; //Convert DataContex of border as Task
+            Task selectedTask = (Task)border.DataContext; //Convert DataContex of border as Task
 
             CreateTaskWindow updateTask = new CreateTaskWindow(); //Create new Window to Update Task
             updateTask.ShowDialog();

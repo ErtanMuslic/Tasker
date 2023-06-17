@@ -25,6 +25,7 @@ namespace Tasker
         public string Description { get; set; }
         public int Priority { get; set; }
         public DateTime Date { get; set; }
+        public string member { get; set; }
         public List<string> Members { get; set; }
 
         public ObservableCollection<Comment> Comments { get; set; }

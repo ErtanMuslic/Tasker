@@ -11,27 +11,29 @@ namespace Tasker
     public class Task : INotifyPropertyChanged
     {
         private string name;
-        public string Name {
+        public string Name
+        {
             get { return name; }
-            set 
+            set
             {
                 if (name != value)
                 {
                     name = value;
                     NotifyPropertyChanged("Name");
                 }
-            } 
+            }
         }
         public string Description { get; set; }
         public int Priority { get; set; }
         public DateTime Date { get; set; }
+        public string member { get; set; }
         public List<string> Members { get; set; }
 
         public ObservableCollection<Comment> Comments { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string propertyName) 
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="CreateProjectWindow" Height="400" Width="400">
     <Grid>
+        <Border Background="Beige"/>
         <TextBox x:Name="goal" Margin="104,187,0,0" TextWrapping="Wrap" Text=""  VerticalAlignment="Top"  Height="33" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
-        <TextBox x:Name="deadline" Margin="104,259,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <DatePicker Background="White" x:Name="deadline" Margin="104,259,0,0" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
         <TextBox x:Name="name" Margin="104,113,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
         <Label Content="Name:" HorizontalAlignment="Left" Margin="104,77,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="36" Width="74"/>
         <Label Content="Goal:" HorizontalAlignment="Left" Margin="104,155,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="36" Width="64"/>

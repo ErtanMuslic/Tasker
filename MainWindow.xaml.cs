@@ -42,16 +42,18 @@ namespace Tasker
 
         public int TaskIndex = 0;
 
+        private Border SelectedBorder;
+
 
         public MainWindow()
         {
             InitializeComponent();
 
-            
+
             Projects = new ObservableCollection<Project>()
             {
                 new Project {Name = "Create Project"},
-                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",},Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
+                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",}, member ="Ertan",Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
             };
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
@@ -76,7 +78,6 @@ namespace Tasker
             //};
 
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // Bind taskList to Projects[Index].Tasks(all tasks in the List) (ItemsControl)
-            
 
 
             Filters = new ObservableCollection<string>() //Create list of available filters
@@ -116,26 +117,26 @@ namespace Tasker
                 {
                     if (items.Date.Date == DateTime.Now.AddDays(1).Date) // If date on task is 1 day away from current date
                     {
-                        MessageBox.Show($"Warning: {items.Name} has 1 day left to complete"); //Show Warning
+                        MessageBox.Show($"{items.Name} has 1 day left to complete", "", MessageBoxButton.OK, MessageBoxImage.Warning); //Show Warning
                     }
                 }
             }
-            
+
         }
 
-        private void GenerateProgressReports()
-        {
-            foreach(Task items in Projects[SelectedIndex].Tasks)
-            {
-                string report = $"Task: {items.Name}\n" +
-                                $"Description: {items.Description}\n" +
-                                $"Priority: {items.Priority}\n" +
-                                $"Deadline: {items.Date}\n" +
-                                $"Progress: ADD\n";
+        //private void GenerateProgressReports()
+        //{
+        //    foreach(Task items in Projects[SelectedIndex].Tasks)
+        //    {
+        //        string report = $"Task: {items.Name}\n" +
+        //                        $"Description: {items.Description}\n" +
+        //                        $"Priority: {items.Priority}\n" +
+        //                        $"Deadline: {items.Date}\n" +
+        //                        $"Progress: ADD\n";
 
-                Console.WriteLine(report);
-            }
-        }
+        //        Console.WriteLine(report);
+        //    }
+        //}
 
 
 
@@ -164,15 +165,15 @@ namespace Tasker
             }
             else
             {
-                
+
                 CheckIndex();
                 Projects[SelectedIndex].Name = cbx.Text; //Update Project Name
-                
-               
+
+
             }
-                          
+
         }
-        
+
 
 
         private void Create_Task(object sender, RoutedEventArgs e)
@@ -180,17 +181,18 @@ namespace Tasker
             CreateTaskWindow newTask = new CreateTaskWindow(); //Same logic for Creating Project applies here
             newTask.ShowDialog();
 
-            
+
             CheckIndex();
             string name = newTask.name.Text;
             string desc = newTask.description.Text;
             int priority = newTask.Priority;
             DateTime date = newTask.TaskDate;
             List<string> members = newTask.Members;
+            string member = newTask.Memberscbx.Text;
 
-            if(name != "" && desc != "" && priority != 0 && date != DateTime.MinValue)
+            if (name != "" && desc != "" && priority != 0 && date != DateTime.MinValue)
             {
-                Task task = new Task { Name=name,Description =desc , Priority = priority , Date = date ,Members = members , Comments = new ObservableCollection<Comment>()};
+                Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member, Comments = new ObservableCollection<Comment>() };
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly created Task to the selected Project
                 MessageBox.Show($"Successfully created Task: {task.Name}");
             }
@@ -202,10 +204,12 @@ namespace Tasker
 
         private void cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             CheckIndex();
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // When selection is changed remove previous Tasks and add show Tasks for newly selected Project
             Cbx_Filter.SelectedIndex = 0;
+            ProjectName.Content = Projects[SelectedIndex].Name;
+            DeadlineTime.Content = Projects[SelectedIndex].Deadline.ToString("dd.MM.yyyy");
         }
 
 
@@ -215,7 +219,7 @@ namespace Tasker
 
         private int CheckIndex()
         {
-            if(cbx.SelectedIndex != -1) //Because Selection changed return -1 when we want to edit text in combobox, i save index of the element that we want to change so we can update name
+            if (cbx.SelectedIndex != -1) //Because Selection changed return -1 when we want to edit text in combobox, i save index of the element that we want to change so we can update name
             {
                 SelectedIndex = cbx.SelectedIndex;
                 return SelectedIndex;
@@ -231,20 +235,20 @@ namespace Tasker
         private void Cbx_Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var SelectedFilter = Cbx_Filter.SelectedIndex; //Get Index of the choosen filter
-           
+
 
             if (SelectedFilter == 1) //If first filter is selected (Priority ASC)
             {
-                
-                 Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderBy(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
+
+                Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderBy(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
                 Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
                 foreach (var items in Filtered_Tasks)
                 {
                     Projects[SelectedIndex].Tasks.Add(items); //Add them in order of Priority
                 }
             }
-             
-            else if(SelectedFilter == 2) //if second filter is selected (Priority DESC)
+
+            else if (SelectedFilter == 2) //if second filter is selected (Priority DESC)
             {
                 Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderByDescending(p => p.Priority)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
                 Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
@@ -254,7 +258,7 @@ namespace Tasker
                 }
             }
 
-            else if(SelectedFilter == 3) // if third filter is selected (Date ASC)
+            else if (SelectedFilter == 3) // if third filter is selected (Date ASC)
             {
                 Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderBy(p => p.Date)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
                 Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
@@ -264,7 +268,7 @@ namespace Tasker
                 }
             }
 
-            else if(SelectedFilter == 4) // if fourth filter is selecter (Date DESC)
+            else if (SelectedFilter == 4) // if fourth filter is selecter (Date DESC)
             {
                 Filtered_Tasks = new ObservableCollection<Task>(Projects[SelectedIndex].Tasks.OrderByDescending(p => p.Date)); //Copy Tasks from Selected Project and filter them by Priority then set them to Filtered_Tasks
                 Projects[SelectedIndex].Tasks.Clear(); //Clear unfiltered Tasks 
@@ -278,14 +282,23 @@ namespace Tasker
         private void Border_MouseEnter(object sender, MouseEventArgs e)
         {
             Border border = (Border)sender;
+            border.BorderThickness = new Thickness(2);
+            border.BorderBrush = new SolidColorBrush(Colors.Green);
+            SelectedBorder = border;
             Task selectedTask = (Task)border.DataContext;
             TaskIndex = Projects[SelectedIndex].Tasks.IndexOf(selectedTask); //Get Index of task that the mouse is placed over
+        }
+
+        private void Border_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SelectedBorder.BorderBrush = new SolidColorBrush(Colors.Black);
+            SelectedBorder.BorderThickness = new Thickness(1);
         }
 
 
         private void Remove_Task(object sender, MouseButtonEventArgs e)  //Left Click
         {
-            Border border= (Border)sender; //Get Clicked Border from sender casted as Border 
+            Border border = (Border)sender; //Get Clicked Border from sender casted as Border 
             Task selectedTask = (Task)border.DataContext; //Convert DataContex of border as Task
             Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
 
@@ -307,27 +320,28 @@ namespace Tasker
             int priority = updateTask.Priority;
             DateTime date = updateTask.TaskDate;
             List<string> members = updateTask.Members;
+            string member = updateTask.Memberscbx.Text;
 
             if (name != "" && desc != "" && priority != 0 && date != DateTime.MinValue) //Check if all fields are filled correctly
             {
-                Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members }; //Create new Task
+                Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member }; //Create new Task
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly updated Task to the selected Project
                 Projects[SelectedIndex].Tasks.Remove(selectedTask); //Remove Old Task 
-                MessageBox.Show($"Successfully updated Task: {task.Name}"); 
+                MessageBox.Show($"Successfully updated Task: {task.Name}");
             }
-            
+
 
         }
 
         private void Add_Comment(object sender, RoutedEventArgs e)
         {
-            ItemsControl items = (ItemsControl)FindName("taskList");
-            TextBox text = FindChild<TextBox>(items,"comment_Text");
-            ComboBox name = FindChild<ComboBox>(items, "comment_Name");
+
+            TextBox text = FindChild<TextBox>(SelectedBorder, "comment_Text");
+            ComboBox name = FindChild<ComboBox>(SelectedBorder, "comment_Name");
 
             if (name.SelectedIndex == 0)
             {
-                MessageBox.Show("You must select a member");
+                MessageBox.Show("You must select a member", "Member not selected", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -337,17 +351,18 @@ namespace Tasker
                 Comment comment = new Comment { MemberName = commentName, Text = commentText };
 
                 Projects[SelectedIndex].Tasks[TaskIndex].Comments.Add(comment);
+                text.Text = string.Empty;
             }
-            
-            
-           
+
+
+
 
         }
         private T FindChild<T>(DependencyObject parent, string childName) where T : FrameworkElement //Recursively search element by name
         {                                                                                            //Copied from the internet
             if (parent == null)                                                                      //Used to get access to TextBox which is deeply nested 
                 return null;                                                                         //in taskList. Could not access it otherwise
-                                                                                                     
+
             T foundChild = null;
 
             int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
@@ -370,15 +385,15 @@ namespace Tasker
             return foundChild;
         }
 
-        
+
     }
 }
 
-        
 
 
-           
-        
 
-    
+
+
+
+
 

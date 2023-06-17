@@ -1,6 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Tasker
 {
@@ -14,10 +24,6 @@ namespace Tasker
         public int Priority;
 
         public List<string> Members {get; set; }
-
-        //string connectionString = "server=localhost;port=3306;database=database;user=root;password='';";
-       
-
 
         
         public CreateTaskWindow()
@@ -33,15 +39,13 @@ namespace Tasker
                 "Amel",
                 "Samir",
             };
-
-            Memberscbx.ItemsSource = Members;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (name.Text == "" || description.Text == "" || priority.Text == "" || Memberscbx.SelectedIndex == 0)
+            if (name.Text == "" || description.Text == "" || priority.Text == "")
             {
-                MessageBox.Show("All Fields must be filled", "Empty Fields", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("All fields must be filled");
             }
             else
             {
@@ -52,12 +56,12 @@ namespace Tasker
                 }
                 catch
                 {
-                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)", "Invalid Date Format", MessageBoxButton.OK, MessageBoxImage.Warning); //if date input is invalid or wrong format
+                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)"); //if date input is invalid or wrong format
 
                 }
                 if(!int.TryParse(priority.Text, out Priority))
                 {
-                    MessageBox.Show("Priority must be a number","",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    MessageBox.Show("Priority must be a number");
                 }
                 
                 if (TaskDate != DateTime.MinValue && int.TryParse(priority.Text, out Priority)) //if dateTime is not empty or uninitialised

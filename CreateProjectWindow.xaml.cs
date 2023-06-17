@@ -33,7 +33,7 @@ namespace Tasker
 
             if (name.Text == "" || goal.Text == "" || deadline.Text == "")
             {
-                MessageBox.Show("All Fields must be filled","Empty Fields",MessageBoxButton.OK,MessageBoxImage.Warning); //If all fields are empty show this message
+                MessageBox.Show("All Fields must be filled"); //If all fields are empty show this message
             }
             else
             {
@@ -44,7 +44,7 @@ namespace Tasker
                 }
                 catch
                 {
-                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)","Invalid Date Format", MessageBoxButton.OK, MessageBoxImage.Warning); //if date input is invalid or wrong format
+                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)"); //if date input is invalid or wrong format
 
                 }
                 if (date != DateTime.MinValue) //if dateTime is not empty or uninitialised

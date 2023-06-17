@@ -5,27 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tasker"
         mc:Ignorable="d"
-        Title="CreateTaskWindow" Height="550" Width="400">
+        Title="CreateTaskWindow" Height="500" Width="400">
     <Grid>
 
-        <Border Background="Beige"/>
-        <TextBox x:Name="description" Margin="92,176,0,0" TextWrapping="Wrap" Text=""  VerticalAlignment="Top"  Height="33" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
-        <DatePicker Background="White" x:Name="date" Margin="92,325,0,0"  Text=""  VerticalAlignment="Top"  Height="33" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
-        <TextBox x:Name="priority" Margin="92,248,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
-        <TextBox x:Name="name" Margin="92,102,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
-        <Label Content="Name:" HorizontalAlignment="Left" Margin="92,71,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="31" Width="74"/>
-        <Label Content="Member:" HorizontalAlignment="Left" Margin="92,372,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="31" Width="74"/>
-        <Label Content="Date:" HorizontalAlignment="Left" Margin="92,294,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="31" Width="74"/>
-        <Label Content="Description:" HorizontalAlignment="Left" Margin="92,149,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="27" Width="74"/>
-        <Label Content="Priority:" HorizontalAlignment="Left" Margin="92,221,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="27" Width="106"/>
-        <Label Content="Create New Task" HorizontalAlignment="Left" Margin="92,24,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
-        <Button Content="Create Task" Click="Button_Click"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="108,477,0,0" Padding="0,0,0,0" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="168" VerticalAlignment="Top" HorizontalAlignment="Left" FontStyle="Italic" >
+        <TextBox x:Name="description" Margin="94,202,0,0" TextWrapping="Wrap" Text=""  VerticalAlignment="Top"  Height="33" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <TextBox x:Name="date" Margin="94,351,0,0" TextWrapping="Wrap" Text=""  VerticalAlignment="Top"  Height="33" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <TextBox x:Name="priority" Margin="94,274,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <TextBox x:Name="name" Margin="94,128,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"  Height="35" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="196"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="94,97,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="31" Width="74"/>
+        <Label Content="Date:" HorizontalAlignment="Left" Margin="94,320,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="31" Width="74"/>
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="94,175,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="27" Width="74"/>
+        <Label Content="Priority:" HorizontalAlignment="Left" Margin="94,247,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="27" Width="106"/>
+        <Label Content="Create New Task" HorizontalAlignment="Left" Margin="94,50,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
+        <Button Content="Create Task" Click="Button_Click"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="108,421,0,0" Padding="0,0,0,0" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="168" VerticalAlignment="Top" HorizontalAlignment="Left" FontStyle="Italic" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="7"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <ComboBox Name="Memberscbx" SelectedIndex="0" HorizontalAlignment="Left" Margin="92,403,0,0" VerticalAlignment="Top" Width="199" Height="27"/>
     </Grid>
 </Window>

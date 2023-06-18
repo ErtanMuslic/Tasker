@@ -27,9 +27,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Tasker
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
+    // Baza je Radjena u MySql, Funkcije koje su vezane za operacije sa bazom su pod komentarom da bi aplikacija mogla da se pokrene.
+    
     public partial class MainWindow : Window
     {
 
@@ -55,6 +55,12 @@ namespace Tasker
         {
             InitializeComponent();
 
+            string connectionString = "Server=localhost;Database=tasker;Uid=root;Pwd='';";
+
+            connection = new MySqlConnection(connectionString);
+
+
+
             Members = new string[]
             {
                 "Select Member",
@@ -66,26 +72,21 @@ namespace Tasker
                 "Samir",
             };
 
+ //------>  GetProjectsFromDatabase();
 
-            string connectionString = "Server=localhost;Database=tasker;Uid=root;Pwd='';";
-
-            connection = new MySqlConnection(connectionString);
-
-            GetProjectsFromDatabase();
-
-            foreach(Project project in Projects)
-            {
-                foreach(Task task in project.Tasks)
-                {
-                    task.Members = Members;
-                }
-            }
-
-            //Projects = new ObservableCollection<Project>()
+//--------> foreach(Project project in Projects)
             //{
-            //    new Project {Name = "Create Project"},
-            //    new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2023,10,10), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",}, member ="Ertan",Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
-            //};
+            //    foreach(Task task in project.Tasks)
+            //    {
+            //        task.Members = Members;
+            //    }
+            //}
+
+            Projects = new ObservableCollection<Project>()
+            {
+                new Project {Name = "Create Project"},
+                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2023,10,10), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new string[] {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",}, member ="Ertan",Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
+            };
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
             cbx.SelectedIndex = Projects.Count - 1; // Initialy ComboBox will point to the "Create Project" which is on index 0
@@ -265,7 +266,7 @@ namespace Tasker
                 if (name != "" && goal != "" && deadline != DateTime.MinValue) // If second window was closed manualy,empty project will be created hence this if statement
                 {
                     Project project = new Project { Name = name, Goal = goal, Deadline = deadline, Tasks = new ObservableCollection<Task>() };
-                    StoreToDataBase(project, new ObservableCollection<Task>() { });
+     //-------->    StoreToDataBase(project, new ObservableCollection<Task>() { });
                     Projects.Add(project); //Add new Project
                     cbx.SelectedIndex = Projects.Count - 1; //Select newly created Project
                     MessageBox.Show($"Successfuly created Project: {project.Name}");
@@ -276,7 +277,7 @@ namespace Tasker
             {
 
                 CheckIndex();
-                UpdateInDatabase(cbx.Text,SelectedIndex); //Update Project Name in Database
+ //-------->    UpdateInDatabase(cbx.Text,SelectedIndex); //Update Project Name in Database
                 Projects[SelectedIndex].Name = cbx.Text; //Update Project Name
 
 
@@ -310,16 +311,16 @@ namespace Tasker
                 string[] members = newTask.Members;
                 string member = newTask.Memberscbx.Text;
 
-                if (name != "" && desc != "" && priority != 0 && date != DateTime.MinValue && (date <= Projects[SelectedIndex].Deadline || date > DateTime.Now))
+                if (name != "" && desc != "" && priority != 0 && date != DateTime.MinValue && date > DateTime.Now && date < Projects[SelectedIndex].Deadline)
                 {
                     Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member, Comments = new ObservableCollection<Comment>() };
                     Projects[SelectedIndex].Tasks.Add(task); //Add newly created Task to the selected Project
-                    AddTaskToDatabase(Projects[SelectedIndex].Name, task); //Add task to the project database
+     //-------->    AddTaskToDatabase(Projects[SelectedIndex].Name, task); //Add task to the project database
                     MessageBox.Show($"Successfully created Task: {task.Name}");
                 }
                 else
                 {
-                    MessageBox.Show("Task deadline can not be set  before Project Deadline", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show("Task deadline can not be set after Project Deadline", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 taskList.ItemsSource = Projects[SelectedIndex].Tasks; //Bind ItemsControl to the selected Project to show all Tasks for that specific Project
             }
@@ -459,7 +460,7 @@ namespace Tasker
             Border border = (Border)sender; //Get Clicked Border from sender casted as Border 
             Task selectedTask = (Task)border.DataContext; //Convert DataContex of border as Task
             Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
-            DeleteTask(Projects[SelectedIndex].Name, TaskIndex);
+ //---->    DeleteTask(Projects[SelectedIndex].Name, TaskIndex);
 
         }
 
@@ -474,6 +475,8 @@ namespace Tasker
             Task selectedTask = (Task)border.DataContext; //Convert DataContex of border as Task
 
             CreateTaskWindow updateTask = new CreateTaskWindow(); //Create new Window to Update Task
+            updateTask.TaskLabel.Content = "Update Task";
+            updateTask.TaskButton.Content = "Update Task";
             updateTask.ShowDialog();
 
             string name = updateTask.name.Text;  //Get updated data
@@ -487,9 +490,9 @@ namespace Tasker
             {
                 Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member }; //Create new Task
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly updated Task to the selected Project
-                AddTaskToDatabase(Projects[SelectedIndex].Name, task); //Add task to the database
+ //-------->    AddTaskToDatabase(Projects[SelectedIndex].Name, task); //Add task to the database
                 Projects[SelectedIndex].Tasks.Remove(selectedTask); //Remove Old Task 
-                DeleteTask(Projects[SelectedIndex].Name,TaskIndex); //Remove Task From database
+ //-------->    DeleteTask(Projects[SelectedIndex].Name,TaskIndex); //Remove Task From database
                 MessageBox.Show($"Successfully updated Task: {task.Name}");
             }
 

@@ -18,8 +18,8 @@
         <Label Content="Date:" HorizontalAlignment="Left" Margin="92,294,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="31" Width="74"/>
         <Label Content="Description:" HorizontalAlignment="Left" Margin="92,149,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="27" Width="74"/>
         <Label Content="Priority:" HorizontalAlignment="Left" Margin="92,221,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Height="27" Width="106"/>
-        <Label Content="Create New Task" HorizontalAlignment="Left" Margin="92,24,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
-        <Button Content="Create Task" Click="Button_Click"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="108,477,0,0" Padding="0,0,0,0" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="168" VerticalAlignment="Top" HorizontalAlignment="Left" FontStyle="Italic" >
+        <Label Name="TaskLabel"  Content="Create New Task" HorizontalAlignment="Left" Margin="92,24,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
+        <Button Name="TaskButton" Content="Create Task" Click="Button_Click"  BorderBrush="Black" Background="#FF030202" Foreground="White" Margin="108,477,0,0" Padding="0,0,0,0" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="32" FontFamily="Arial" Width="168" VerticalAlignment="Top" HorizontalAlignment="Left" FontStyle="Italic" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="7"/>

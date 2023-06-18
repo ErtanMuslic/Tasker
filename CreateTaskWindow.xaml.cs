@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Tasker
@@ -13,9 +14,8 @@ namespace Tasker
 
         public int Priority;
 
-        public List<string> Members { get; set; }
+        public string[] Members { get; set; }
 
-        //string connectionString = "server=localhost;port=3306;database=database;user=root;password='';";
 
 
 
@@ -23,7 +23,7 @@ namespace Tasker
         public CreateTaskWindow()
         {
             InitializeComponent();
-            Members = new List<string>()
+            Members = new string[]
             {
                 "Select Member",
                 "Ertan",

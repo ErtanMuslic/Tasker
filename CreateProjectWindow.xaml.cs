@@ -40,16 +40,20 @@ namespace Tasker
                 try
                 {
                     date = DateTime.Parse((deadline.Text).ToString()); //Parse date into String
-
+                   
                 }
                 catch
                 {
-                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)", "Invalid Date Format", MessageBoxButton.OK, MessageBoxImage.Warning); //if date input is invalid or wrong format
+                    MessageBox.Show("Invalid Deadline date format! (MM/dd/yyyy)", "Invalid Date Format", MessageBoxButton.OK, MessageBoxImage.Error); //if date input is invalid or wrong format
 
                 }
-                if (date != DateTime.MinValue) //if dateTime is not empty or uninitialised
+                if (date != DateTime.MinValue && date > DateTime.Now) //if dateTime is not empty or uninitialised and is not in the past
                 {
                     Close(); //close Window
+                }
+                else
+                {
+                    MessageBox.Show("Deadline can not be set in the past","",MessageBoxButton.OK,MessageBoxImage.Exclamation);
                 }
             }
 

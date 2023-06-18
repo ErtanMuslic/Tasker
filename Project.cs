@@ -11,6 +11,7 @@ namespace Tasker
 {
     public class Project: INotifyPropertyChanged
     {
+
         private string name;
         public string Name {
 

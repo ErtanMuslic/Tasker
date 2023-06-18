@@ -67,25 +67,6 @@ namespace Tasker
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
             cbx.SelectedIndex = Projects.Count - 1; // Initialy ComboBox will point to the "Create Project" which is on index 0
-
-
-            //Tasks = new ObservableCollection<Task>() //Will be deleted shortly
-            //{
-            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Memeber","Ramiz","Ertan"}},
-            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
-            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member","Ramiz","Ertan" }},
-            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name1",Description ="Description1", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-            //    new Task {Name = "Name2",Description ="Description2", Priority=1, Date=new DateTime(2000,1,1), Members = new List < string >() { "Select Member", "Ramiz", "Ertan" }},
-
-            //};
-
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; // Bind taskList to Projects[Index].Tasks(all tasks in the List) (ItemsControl)
 
 
@@ -104,14 +85,6 @@ namespace Tasker
             Timer.Interval = TimeSpan.FromSeconds(10); // Set interval to check every 10 seconds
             Timer.Tick += Timer_Tick; //Add a function to be called when 10 seconds have passed
             Timer.Start(); //Start Timer
-
-
-
-
-            //StoreToDataBase(Projects[1]);
-           
-            
-
 
         }
 
@@ -192,11 +165,25 @@ namespace Tasker
             connection.Close();
         }
 
+        public void DeleteTask(string name, int id)
+        {
+            string query = $"UPDATE project SET Tasks = JSON_REMOVE(Tasks,'$[{id}]') WHERE name = @name";
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
+            
+
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+
+
 
         private void Timer_Tick(object sender, EventArgs e) //Called every 10 seconds
         {
             CheckDeadline(); //Checks the deadline
-            //GenerateProgressReports(); //Generate progress Reports
         }
 
         private void CheckDeadline()
@@ -290,6 +277,7 @@ namespace Tasker
             Cbx_Filter.SelectedIndex = 0;
             ProjectName.Content = Projects[SelectedIndex].Name;
             DeadlineTime.Content = Projects[SelectedIndex].Deadline.ToString("dd.MM.yyyy");
+            Goal.Content = Projects[SelectedIndex].Goal;
         }
 
 
@@ -381,6 +369,7 @@ namespace Tasker
             Border border = (Border)sender; //Get Clicked Border from sender casted as Border 
             Task selectedTask = (Task)border.DataContext; //Convert DataContex of border as Task
             Projects[SelectedIndex].Tasks.Remove(selectedTask); // Delete Selected Task
+            DeleteTask(Projects[SelectedIndex].Name, TaskIndex);
 
         }
 
@@ -406,7 +395,9 @@ namespace Tasker
             {
                 Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member }; //Create new Task
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly updated Task to the selected Project
+                AddTaskToDatabase(Projects[SelectedIndex].Name, task);
                 Projects[SelectedIndex].Tasks.Remove(selectedTask); //Remove Old Task 
+                DeleteTask(Projects[SelectedIndex].Name,TaskIndex);
                 MessageBox.Show($"Successfully updated Task: {task.Name}");
             }
 

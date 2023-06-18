@@ -97,5 +97,6 @@
         <Label Name="ProjectName" Content="" Margin="311,0,299,31" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" FontStyle="Italic"/>
         <Label Content="Due To:" Grid.Row="0" Margin="199,30,187,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="27" FontStyle="Italic"/>
         <Label x:Name="DeadlineTime" Grid.Row="0" Content="" Margin="358,35,346,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label x:Name="Goal" Content="" Grid.Row="0" Margin="206,4,194,11" HorizontalContentAlignment="Center" FontSize="18" FontWeight="Bold" FontStyle="Italic" VerticalContentAlignment="Center"/>
     </Grid>
 </Window>

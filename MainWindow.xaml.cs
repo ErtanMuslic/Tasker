@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.CommandBars;
+using MySql.Data.MySqlClient;
 
 namespace Tasker
 {
@@ -42,6 +44,8 @@ namespace Tasker
 
         public int TaskIndex = 0;
 
+        public MySqlConnection connection { get; set; }
+
         private Border SelectedBorder;
 
 
@@ -50,11 +54,16 @@ namespace Tasker
             InitializeComponent();
 
 
-            Projects = new ObservableCollection<Project>()
-            {
-                new Project {Name = "Create Project"},
-                new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2/2/2000), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",}, member ="Ertan",Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
-            };
+            string connectionString = "Server=localhost;Database=tasker;Uid=root;Pwd='';";
+
+            connection = new MySqlConnection(connectionString);
+
+            GetProjectsFromDatabase();
+            //Projects = new ObservableCollection<Project>()
+            //{
+            //    new Project {Name = "Create Project"},
+            //    new Project {Name = "Project 1", Goal= "sadasd",Deadline = new DateTime(2023,10,10), Tasks = new ObservableCollection<Task>() { new Task {Name = "Task1",Description= "dasd",Priority = 1,Date = new DateTime(2/2/2222), Members = new List<string>() {"Select Member","Ertan","Ramiz","Ermin","Marko","Amel","Samir",}, member ="Ertan",Comments = new ObservableCollection<Comment>() { new Comment { MemberName = "Ertan" , Text="No Comment"} } } } }
+            //};
 
             cbx.ItemsSource = Projects; //Bind Projects List to ComboBox 
             cbx.SelectedIndex = Projects.Count - 1; // Initialy ComboBox will point to the "Create Project" which is on index 0
@@ -97,6 +106,90 @@ namespace Tasker
             Timer.Start(); //Start Timer
 
 
+
+
+            //StoreToDataBase(Projects[1]);
+           
+            
+
+
+        }
+
+        
+
+        public void StoreToDataBase(Project project,Task task)
+        {
+            string query = "INSERT INTO project (Name, Goal, Deadline,Tasks) VALUES (@Name, @Goal,@Deadline, @Tasks)";
+
+            connection.Open();
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Name", project.Name);
+            command.Parameters.AddWithValue("@Goal", project.Goal);
+            command.Parameters.AddWithValue("@Deadline", project.Deadline);
+            command.Parameters.AddWithValue("@Tasks", JsonSerializer.Serialize(task));
+
+
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+
+        public  void GetProjectsFromDatabase()
+        {
+            string query = "SELECT * FROM project";
+
+            connection.Open();
+            MySqlCommand command = new MySqlCommand(query, connection); ;
+
+            Projects = new ObservableCollection<Project>();
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    string name = reader.GetString("Name");
+                    string goal = reader.GetString("Goal");
+                    DateTime deadline = reader.GetDateTime("Deadline");
+                    Task[] tasks = JsonSerializer.Deserialize<Task[]>(reader.GetString("Tasks"));
+
+                    Project project = new Project {Name= name,Goal= goal,Deadline= deadline,Tasks=new ObservableCollection<Task>(tasks) };
+                    Projects.Add(project);
+                }
+            }
+            connection.Close();
+
+        }
+
+        public void AddTaskToDatabase(string name,Task task)
+        {
+            string query = "UPDATE project SET Tasks = JSON_ARRAY_APPEND(Tasks,'$',JSON_OBJECT('name',@tName,'Description',@Desc,'Priority',@Priority,'Date',@Date,'member',@member,'Members',@members)) WHERE name = @name";
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@tName", task.Name);
+            command.Parameters.AddWithValue("@Desc", task.Description);
+            command.Parameters.AddWithValue("@Priority", task.Priority);
+            command.Parameters.AddWithValue("@Date", task.Date);
+            command.Parameters.AddWithValue("@member", task.member);
+            command.Parameters.AddWithValue("@members", task.Members);
+
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public void UpdateInDatabase(string name,int id)
+        {
+            string query = "UPDATE project SET name = @name WHERE ID = @id";
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@name", name);
+
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
         }
 
 
@@ -124,22 +217,6 @@ namespace Tasker
 
         }
 
-        //private void GenerateProgressReports()
-        //{
-        //    foreach(Task items in Projects[SelectedIndex].Tasks)
-        //    {
-        //        string report = $"Task: {items.Name}\n" +
-        //                        $"Description: {items.Description}\n" +
-        //                        $"Priority: {items.Priority}\n" +
-        //                        $"Deadline: {items.Date}\n" +
-        //                        $"Progress: ADD\n";
-
-        //        Console.WriteLine(report);
-        //    }
-        //}
-
-
-
         private void Create_Project(object sender, RoutedEventArgs e)
         {
             if (cbx.SelectedIndex == 0)
@@ -157,6 +234,7 @@ namespace Tasker
                 if (name != "" && goal != "" && deadline != DateTime.MinValue) // If second window was closed manualy,empty project will be created hence this if statement
                 {
                     Project project = new Project { Name = name, Goal = goal, Deadline = deadline, Tasks = new ObservableCollection<Task>() };
+                    StoreToDataBase(project,new Task { });
                     Projects.Add(project); //Add new Project
                     cbx.SelectedIndex = Projects.Count - 1; //Select newly created Project
                     MessageBox.Show($"Successfuly created Project: {project.Name} , Index: {cbx.SelectedIndex}");
@@ -167,6 +245,7 @@ namespace Tasker
             {
 
                 CheckIndex();
+                UpdateInDatabase(cbx.Text,SelectedIndex);
                 Projects[SelectedIndex].Name = cbx.Text; //Update Project Name
 
 
@@ -194,6 +273,7 @@ namespace Tasker
             {
                 Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member, Comments = new ObservableCollection<Comment>() };
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly created Task to the selected Project
+                AddTaskToDatabase(Projects[SelectedIndex].Name,task);
                 MessageBox.Show($"Successfully created Task: {task.Name}");
             }
             taskList.ItemsSource = Projects[SelectedIndex].Tasks; //Bind ItemsControl to the selected Project to show all Tasks for that specific Project

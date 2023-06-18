@@ -28,7 +28,6 @@ using Newtonsoft.Json.Linq;
 namespace Tasker
 {
     
-    // Baza je Radjena u MySql, Funkcije koje su vezane za operacije sa bazom su pod komentarom da bi aplikacija mogla da se pokrene.
     
     public partial class MainWindow : Window
     {
@@ -55,8 +54,10 @@ namespace Tasker
         {
             InitializeComponent();
 
-            string connectionString = "Server=localhost;Database=tasker;Uid=root;Pwd='';";
 
+
+            //DataBase Connection
+            string connectionString = "Server=localhost;Database=tasker;Uid=root;Pwd='';";
             connection = new MySqlConnection(connectionString);
 
 
@@ -105,7 +106,7 @@ namespace Tasker
             Cbx_Filter.SelectedIndex = 0; //Show first fillter on application start
 
 
-            Timer = new DispatcherTimer(); //Craete new Timer
+            Timer = new DispatcherTimer(); //Create new Timer
             Timer.Interval = TimeSpan.FromSeconds(10); // Set interval to check every 10 seconds
             Timer.Tick += Timer_Tick; //Add a function to be called when 10 seconds have passed
             Timer.Start(); //Start Timer
@@ -116,8 +117,10 @@ namespace Tasker
 
 
         
-        //DATABASE OPERATIONS:
 
+
+
+        //Store Project to Database
         public void StoreToDataBase(Project project, ObservableCollection<Task> task)
         {
             string query = "INSERT INTO project (Name, Goal, Deadline,Tasks) VALUES (@Name, @Goal,@Deadline,@Tasks)";
@@ -136,6 +139,7 @@ namespace Tasker
         }
 
 
+        //Get all data from DataBase
         public  void GetProjectsFromDatabase()
         {
             string query = "SELECT * FROM project";
@@ -162,6 +166,8 @@ namespace Tasker
 
         }
 
+
+        //Add task to DataBase
         public void AddTaskToDatabase(string name,Task task)
         {
             string query = "UPDATE project SET Tasks = JSON_ARRAY_APPEND(Tasks,'$',JSON_OBJECT('name',@tName,'Description',@Desc,'Priority',@Priority,'Date',@Date,'member',@member)) WHERE name = @name";
@@ -182,6 +188,7 @@ namespace Tasker
 
 
         
+        //Update Project Name 
         public void UpdateInDatabase(string name,int id)
         {
             string query = "UPDATE project SET name = @name WHERE ID = @id";
@@ -195,6 +202,8 @@ namespace Tasker
             connection.Close();
         }
 
+
+        //Delete task from database
         public void DeleteTask(string name, int id)
         {
             string query = $"UPDATE project SET Tasks = JSON_REMOVE(Tasks,'$[{id}]') WHERE name = @name";
@@ -218,9 +227,9 @@ namespace Tasker
 
 
         //Check Deadline time every 10 seconds
-        private void Timer_Tick(object sender, EventArgs e) //Called every 10 seconds
+        private void Timer_Tick(object sender, EventArgs e) 
         {
-            CheckDeadline(); //Checks the deadline
+            CheckDeadline(); 
         }
 
 

@@ -153,7 +153,11 @@ namespace Tasker
                     string goal = reader.GetString("Goal");
                     DateTime deadline = reader.GetDateTime("Deadline");
                     Task[] tasks = System.Text.Json.JsonSerializer.Deserialize<Task[]>(reader.GetString("Tasks"));
-                    Project project = new Project {Name= name,Goal= goal,Deadline= deadline,Tasks=new ObservableCollection<Task>(tasks) };
+                    foreach(var task in tasks)
+                    {
+                        task.Comments = new ObservableCollection<Comment>();
+                    }
+                    Project project = new Project {Name= name,Goal= goal,Deadline= deadline,Tasks=new ObservableCollection<Task>(tasks)};
                     Projects.Add(project);
                 }
                 
@@ -185,12 +189,12 @@ namespace Tasker
 
         
         //Update Project Name 
-        public void UpdateInDatabase(string name,int id)
+        public void UpdateInDatabase(string name,string goal)
         {
-            string query = "UPDATE project SET name = @name WHERE ID = @id";
+            string query = "UPDATE project SET name = @name WHERE Goal = @goal";
 
             MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@goal", goal);
             command.Parameters.AddWithValue("@name", name);
 
             connection.Open();
@@ -282,7 +286,7 @@ namespace Tasker
             {
 
                 CheckIndex();
-                UpdateInDatabase(cbx.Text,SelectedIndex); //Update Project Name in Database
+                UpdateInDatabase(cbx.Text, Projects[SelectedIndex].Goal); //Update Project Name in Database
                 Projects[SelectedIndex].Name = cbx.Text; //Update Project Name
 
 
@@ -493,7 +497,7 @@ namespace Tasker
 
             if (name != "" && desc != "" && priority != 0 && date != DateTime.MinValue) //Check if all fields are filled correctly
             {
-                Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member }; //Create new Task
+                Task task = new Task { Name = name, Description = desc, Priority = priority, Date = date, Members = members, member = member,Comments = new ObservableCollection<Comment>() }; //Create new Task
                 Projects[SelectedIndex].Tasks.Add(task); //Add newly updated Task to the selected Project
                 AddTaskToDatabase(Projects[SelectedIndex].Name, task); //Add task to the database
                 Projects[SelectedIndex].Tasks.Remove(selectedTask); //Remove Old Task 
@@ -513,6 +517,8 @@ namespace Tasker
 
             TextBox text = FindChild<TextBox>(SelectedBorder, "comment_Text"); //Get text to be sent as a comment
             ComboBox name = FindChild<ComboBox>(SelectedBorder, "comment_Name"); // Get name of a user which adds a comment
+
+
 
             if (name.SelectedIndex == 0) //if "Select Member" is selected when the button is pressed 
             {

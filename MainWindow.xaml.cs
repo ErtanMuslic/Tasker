@@ -170,7 +170,7 @@ namespace Tasker
         //Add task to DataBase
         public void AddTaskToDatabase(string name,Task task)
         {
-            string query = "UPDATE project SET Tasks = JSON_ARRAY_APPEND(Tasks,'$',JSON_OBJECT('name',@tName,'Description',@Desc,'Priority',@Priority,'Date',@Date,'member',@member)) WHERE name = @name";
+            string query = "UPDATE project SET Tasks = JSON_ARRAY_APPEND(Tasks,'$',JSON_OBJECT('Name',@tName,'Description',@Desc,'Priority',@Priority,'Date',@Date,'member',@member)) WHERE name = @name";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@name", name);
             command.Parameters.AddWithValue("@tName", task.Name);
